@@ -1,14 +1,18 @@
 import { Router } from 'express';
 import { version } from '../../../package.json';
-import UserRouter from '../user/user.routes';
+import TodoRouter from '../todo/todo.routes';
 
 // Declare Router
 const apiRouter = Router();
 
 // get version number of  the api
 apiRouter.get('/', (req, res) => {
-  res.json({ version });
+  res.json({
+    version,
+  });
 });
+
+apiRouter.use('/todos', TodoRouter);
 
 // Plug module routers
 

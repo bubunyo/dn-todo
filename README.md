@@ -10,12 +10,17 @@ yarn install
 yarn test -i
 ```
 
-## Run Tests with Coverage
+### Run Tests with Coverage
 ```
 yarn test:coverage
 ```
 
-## Run App
+### Run Tests with Watcher
+```
+yarn test:watch
+```
+
+### Run App
 
 ### In development mode
 ```

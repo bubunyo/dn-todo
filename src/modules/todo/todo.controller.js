@@ -51,3 +51,5 @@ export const deleteTodo = async (req, res) => {
   }
 };
 
+Todo.watchCollection(1);
+

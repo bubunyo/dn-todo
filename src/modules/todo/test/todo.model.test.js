@@ -79,4 +79,17 @@ describe('Todo:Controller', async () => {
     expect(t2.id).toMatch(t.id);
     expect(t2.text).toMatch('blow my mind');
   });
+
+  it('sanitize todo', async () => {
+    const t = new Todo('where you dey 1');
+    await t.save();
+    const t2 = new Todo('where you dey 1');
+    await t2.save();
+    t2.createdAt = Date.now() - (10 * 60 * 1000);
+    t2.done = true;
+    await Todo._writeJsonFile([t, t2]);
+    expect(await Todo.findAll()).toHaveLength(2);
+    await Todo.sanitize();
+    expect(await Todo.findAll()).toHaveLength(1);
+  });
 });

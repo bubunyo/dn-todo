@@ -80,6 +80,25 @@ class Todo {
     data.push(this);
     await Todo._writeJsonFile(data);
   }
+
+  static async sanitize() {
+    let data = await Todo.findAll();
+    const cuttOff = Date.now() - (5 * 60 * 1000);
+    data = data.filter(e => e.updatedAt > cuttOff && e.done === false);
+    await Todo._writeJsonFile(data);
+  }
+
+  static async watchCollection(nMin = 1) {
+    // console.log(`Watcher started at${Date()}, will run every ${nMin} minute(s)`);
+    setInterval(async () => {
+      console.log(`Watcher is running at ${Date()}`);
+      try {
+        await Todo.sanitize();
+      } catch (ex) {
+        console.log(ex);
+      }
+    }, 1000 * 60 * nMin); // run every minute
+  }
 }
 
 

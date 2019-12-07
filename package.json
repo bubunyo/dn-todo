@@ -55,8 +55,8 @@
   },
   "jest": {
     "testEnvironment": "node",
-     "watchPathIgnorePatterns": [
+    "watchPathIgnorePatterns": [
       "json"
-     ]
+    ]
   }
 }

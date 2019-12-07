@@ -10,7 +10,7 @@ yarn install
 yarn test -i
 ```
 
-##3 Run Tests with Coverage
+## Run Tests with Coverage
 ```
 yarn test:coverage
 ```

@@ -9,7 +9,7 @@ const app = express();
 
 setup(app);
 
-app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 status404(app);
 errors(app);

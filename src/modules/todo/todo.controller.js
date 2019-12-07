@@ -2,17 +2,17 @@ import HTTPStatus from 'http-status';
 import Todo from './todo.model';
 
 export const getTodos = async (req, res) => {
-  const id = req.params.id;
-  const todo = await Todo.findById(id);
-  if (!todo) {
-    res.sendStatus(HTTPStatus.NOT_FOUND);
-    return;
-  }
-  res.send(todo);
+  res.send(await Todo.findAll());
 };
 
 export const createTodo = async (req, res) => {
-  const todo = await Todo.create({ ...req.body });
+  const data = req.body;
+  const todo = new Todo(
+    data.text,
+    data.priority,
+    data.done,
+  );
+  await todo.save();
   res.status(HTTPStatus.CREATED).json(todo);
 };
 
@@ -27,7 +27,7 @@ export const getTodo = async (req, res) => {
 };
 
 export const updateTodo = async (req, res) => {
-  const id = req.id;
+  const id = req.params.id;
   const todo = await Todo.findById(id);
   if (!todo) {
     res.sendStatus(HTTPStatus.NOT_FOUND);
@@ -37,18 +37,17 @@ export const updateTodo = async (req, res) => {
     todo[key] = req.body[key];
   });
   await todo.save();
-  res.status(HTTPStatus.OK).json(todo.toJson());
+  res.json(todo);
 };
 
 
 export const deleteTodo = async (req, res) => {
-  const id = req.id;
-  const todo = await Todo.findById(id);
-  if (!todo) {
+  const id = req.params.id;
+  try {
+    await Todo.delete(id);
+    res.sendStatus(HTTPStatus.NO_CONTENT);
+  } catch (ex) {
     res.sendStatus(HTTPStatus.NOT_FOUND);
-    return;
   }
-  await todo.destroy();
-  res.sendStatus(HTTPStatus.NO_CONTENT);
 };
 

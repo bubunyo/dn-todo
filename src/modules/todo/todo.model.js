@@ -8,7 +8,7 @@ const _jsonFile = path.join(__dirname, `_todo.${constant.ENV}.json`);
 
 class Todo {
   constructor(text, priority = 3, done = false) {
-    if (text === null || text === undefined || text.length === 0) {
+    if (!text) {
       throw (new Error('the text field should not be empty'));
     }
     this.id = uuidv4();
@@ -45,7 +45,15 @@ class Todo {
 
   static async findById(id) {
     const data = await Todo.findAll();
-    return data.find(e => e.id === id);
+    const d = data.find(e => e.id === id);
+    if (d) {
+      const t = new Todo(' ');
+      Object.keys(d).forEach((key) => {
+        t[key] = d[key];
+      });
+      return t;
+    }
+    return null;
   }
 
   static async delete(id) {
@@ -60,7 +68,7 @@ class Todo {
 
   async save() {
     const now = Date.now();
-    if (this.createdAt === undefined) {
+    if (!this.createdAt) {
       this.createdAt = now;
     }
     this.updatedAt = now;

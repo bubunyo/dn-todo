@@ -1,16 +1,11 @@
 import Joi from 'joi';
 
 export default {
-  createTodo: {
+  todo: {
     body: {
-      // email: Joi.string().email().required(),
-      // password: Joi.string().min(6).max(60).required(),
-    },
-  },
-  updateTodo: {
-    body: {
-      // email: Joi.string().email(),
-      // password: Joi.string().min(6).max(60),
+      text: Joi.string().required(),
+      priority: Joi.number().default(3).min(1).max(5),
+      done: Joi.boolean().default(false),
     },
   },
 };

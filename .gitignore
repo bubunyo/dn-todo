@@ -69,3 +69,5 @@ scripts-dist/
 # smoke test
 smoke-test.js
 .idea
+
+!src/modules/**/*.json

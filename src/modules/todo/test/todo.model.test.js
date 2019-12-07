@@ -67,4 +67,16 @@ describe('Todo:Controller', async () => {
     todos = await Todo.findAll();
     expect(todos).toHaveLength(0);
   });
+
+  it('update todo', async () => {
+    const t = new Todo('where you dey 1');
+    await t.save();
+    expect(t.text).toMatch('where you dey 1');
+    t.text = 'blow my mind';
+    await t.save();
+
+    const t2 = await Todo.findById(t.id);
+    expect(t2.id).toMatch(t.id);
+    expect(t2.text).toMatch('blow my mind');
+  });
 });

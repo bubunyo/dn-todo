@@ -5,6 +5,7 @@ import constant from '../../config/constants';
 
 
 const _jsonFile = path.join(__dirname, `_todo.${constant.ENV}.json`);
+
 class Todo {
   constructor(text, priority = 3, done = false) {
     if (text === null || text === undefined || text.length === 0) {
@@ -64,6 +65,10 @@ class Todo {
     }
     this.updatedAt = now;
     const data = await Todo.findAll();
+    const index = data.findIndex(e => e.id === this.id);
+    if (index > -1) {
+      data.splice(index, 1);
+    }
     data.push(this);
     await Todo._writeJsonFile(data);
   }

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import uuidv4 from 'uuid/v4';
 import constant from '../../config/constants';
 
 
@@ -9,6 +10,7 @@ class Todo {
     if (text === null || text === undefined || text.length === 0) {
       throw (new Error('the text field should not be empty'));
     }
+    this.id = uuidv4();
     this.text = text;
     this.priority = priority;
     this.done = done;
@@ -35,11 +37,26 @@ class Todo {
       await fs.unlinkSync(_jsonFile);
     }
   }
+
   static findAll() {
     return Todo._readJsonFile();
   }
-  static findById(id) {}
-  static delete(id) {}
+
+  static async findById(id) {
+    const data = await Todo.findAll();
+    return data.find(e => e.id === id);
+  }
+
+  static async delete(id) {
+    const data = await Todo.findAll();
+    const index = data.findIndex(e => e.id === id);
+    if (index < 0) {
+      throw new Error(`item with id ${id} does not exist`);
+    }
+    data.splice(index, 1);
+    await Todo._writeJsonFile(data);
+  }
+
   async save() {
     const now = Date.now();
     if (this.createdAt === undefined) {

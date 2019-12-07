@@ -40,6 +40,7 @@
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "source-map-support": "^0.5.16",
+    "uuid": "^3.3.3",
     "validator": "^12.1.0"
   },
   "devDependencies": {
